@@ -19,7 +19,7 @@ to simulate the forest problem with a triangle-shaped forest with a length of 5 
 `` python3 simulation.py -st ZIGZAG -sh TRIANGLE -l 5``
 
 
-### Description of Arguements:
+Optional arguments:
 
 ``-st [the strategy to use]``
 Where the different strategies are: RIGHT, UP, ZIGZAG, SPIRAL
