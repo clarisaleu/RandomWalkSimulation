@@ -3,8 +3,8 @@ Bellman's lost in a forest problem simulation in Python.
 
 ## Dependencies
 - Python Version 3.X
-- [numpy] installed in your python environments (e.g., via `pip install numpy`)
-- [shapely] installed in your python environments (e.g., via `pip install shapely`)
+- [numpy](https://pypi.org/project/numpy/) installed in your python environments (e.g., via `pip install numpy`)
+- [shapely](https://pypi.org/project/Shapely/) installed in your python environments (e.g., via `pip install shapely`)
 
 ## Run Me
 `` python3 simulation.py -st [STRATEGY] -sh [SHAPE] -r [RADIUS] - he [HEIGHT] -w [WIDTH] -l [LENGTH]``
