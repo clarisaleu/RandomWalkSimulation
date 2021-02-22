@@ -1,4 +1,4 @@
-# RandomWalkSimulation
+# Random Walk Simulation
 Bellman's lost in a forest problem simulation in Python.
 
 ## Dependencies
