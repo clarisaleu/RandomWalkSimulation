@@ -65,7 +65,8 @@ def rectangle(strategy, height, width, n, step_size, distribution):
             num_steps_avg += move_spiral('RECTANGLE', None, positions, width, height, 0, 0, 0, step_size, distribution)
 
     # Print out average number of steps needed.
-    print(1.0 * num_steps_avg / n)
+    if (not distribution):
+        print (1.0 * num_steps_avg / n)
     # print ("Average number of steps: ", 1.0 * num_steps_avg / n)
 
 # Circle-shaped forest.
@@ -91,7 +92,8 @@ def circle(strategy, radius, n, step_size, distribution):
             num_steps_avg += move_spiral('CIRCLE', None, positions, 0, 0, center_x, center_y, radius, step_size, distribution)
     
     # Print out average number of steps needed.
-    print (1.0 * num_steps_avg / n)
+    if (not distribution):
+        print (1.0 * num_steps_avg / n)
     # print ("Average number of steps: ", 1.0 * num_steps_avg / n)
 
 # Circle-shaped forest.
