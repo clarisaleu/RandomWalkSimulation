@@ -226,7 +226,8 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
     num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
     #print(alpha)
-    stair_case_size = step_size * 1  # Vary stair-case size here.
+    num_step = 1  # Vary stair-case size here.
+    stair_case_size = step_size * num_step  
     while (1):
         cur_position = positions[j]  # Look at curent position.
         #print(cur_position)
@@ -250,8 +251,8 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
         cur_pos_y = next_pos_y
         positions.append((next_pos_x, next_pos_y))
         # Next iteration - turn 90 degrees.
-        alpha = alpha + np.radians(90) if len(positions) % 2 == 1 else alpha - np.radians(90)
-        num_steps_avg += 1
+        alpha = alpha + np.radians(90) if j % 2 == 1 else alpha - np.radians(90)
+        num_steps_avg += num_step
         j += 1
 
     # Print out the number of steps needed for this trial to look at the distribution.
@@ -262,7 +263,8 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
 # Helper method to handle the spiral strategy.
 def move_spiral(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     j = 0
-    cur_spiral_side = step_size * 1  # Parameter for "size" of spiral.
+    num_step = 1
+    cur_spiral_side = step_size * num_step  # Parameter for "size" of spiral.
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
@@ -292,8 +294,11 @@ def move_spiral(shape, positions, width, height, center_x, center_y, radius, ste
         positions.append((next_pos_x, next_pos_y))
         cur_pos_x = next_pos_x
         cur_pos_y = next_pos_y
-        num_steps_avg += (2 * cur_spiral_side)
-        cur_spiral_side += 1
+        num_steps_avg += num_step
+        if (j % 2 == 1):
+            # Every 2 steps in spiral - increment the size of the spiral by a step size.
+            cur_spiral_side += step_size
+            num_step += 1
         j += 1
         # Add 90 degrees as the next move we are turning
         alpha += np.radians(90)
