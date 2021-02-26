@@ -95,7 +95,7 @@ def circle(strategy, radius, n, step_size, distribution):
         # Use the passed in strategy to escape the forest.
         if (strategy == 'RANDOM'):
             num_steps_avg += move_random('CIRCLE', positions, 0, 0,
-                                         center_x, center_y, radius, step_size, distribution0, 0, 0, 0, 0)
+                                         center_x, center_y, radius, step_size, distribution, 0, 0, 0, 0)
         elif (strategy == 'STAIRCASE'):
             num_steps_avg += move_staircase('CIRCLE', positions, 0, 0,
                                           center_x, center_y, radius, step_size, distribution, 0, 0, 0, 0)
