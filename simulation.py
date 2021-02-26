@@ -1,5 +1,5 @@
 #
-# By: Clarisa Leu-Rodriguez and Rene Vazquez
+# By: Clarisa Leu-Rodriguez & Rene Vazquez
 # Winter 2021 - MATAH381 - Matthew M. Conroy
 #
 # Python program to simulate the Bellman's lost in a forest problem
@@ -9,8 +9,7 @@
 # his starting point or the direction he is facing.
 # What is the best path for him to follow to escape from the forest?"
 #
-# Note: Coordinate system used in this program has the origin as the bottom left corner - with
-# x increasing positively to the right and y increasing positively upwards.
+# Note: Standard Cartesian Coordinate System is Used in this Program.
 #
 # Read README.md for instructions on program usage.
 #
@@ -19,14 +18,10 @@ import random
 import numpy as np
 import argparse
 
-# TODO: large scale random walk. take big steps and then if we don't get out - do it in another step. we know width/height.
-# pick random direction for zig zag, turn 90 degrees go. (have bigger step size). for zigzag and spiral we can change parameters.
-# pick random point, random direction, calculate line to escape forest. we know line path is on - top of square is.
-
-STRATEGIES = ['RANDOM', 'STAIRCASE', 'SPIRAL']  # Strategies to simulate.
+# Strategies to simulate.
+STRATEGIES = ['RANDOM', 'STAIRCASE', 'SPIRAL']
 # Different shapes of forests to simulate.
 SHAPES = ['RECTANGLE', 'CIRCLE', 'L-SHAPED']
-
 
 def main(shape, strategy, height, width, radius, n, step_size, distribution):
     # Call appropiate method based on passed in shape of forest to simulate.
@@ -54,8 +49,6 @@ def main(shape, strategy, height, width, radius, n, step_size, distribution):
 ############ Helper functions for to set up different forest shapes ############
 
 # Rectangle-shaped forest.
-
-
 def rectangle(strategy, height, width, n, step_size, distribution):
     num_steps_avg = 0  # Keep track of a running average.
     for i in range(n):
@@ -85,8 +78,6 @@ def rectangle(strategy, height, width, n, step_size, distribution):
     # print ("Average number of steps: ", 1.0 * num_steps_avg / n)
 
 # Circle-shaped forest.
-
-
 def circle(strategy, radius, n, step_size, distribution):
     # Circle in our coordinate system is always centered at (radius, radius)
     num_steps_avg = 0
@@ -118,8 +109,6 @@ def circle(strategy, radius, n, step_size, distribution):
     # print ("Average number of steps: ", 1.0 * num_steps_avg / n)
 
 # Circle-shaped forest.
-
-
 def l_shape(strategy, rec_big_height, rec_big_width, rec_small_height, rec_small_width, n, step_size, distribution):
     # Circle in our coordinate system is always centered at (radius, radius)
     num_steps_avg = 0
