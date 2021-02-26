@@ -60,8 +60,9 @@ def rectangle(strategy, height, width, n, step_size, distribution):
     num_steps_avg = 0  # Keep track of a running average.
     for i in range(n):
         # Pick a random starting position - where every position is equally likely.
-        start_pos_x = np.random.uniform(0, width - 1)
-        start_pos_y = np.random.uniform(0, height - 1)
+        start_pos_x = np.random.uniform(0, width)
+        start_pos_y = np.random.uniform(0, height)
+        # print(height)
         # print("Starting walk at: (%f, %f)" % (start_pos_x, start_pos_y))
         cur_pos_x = start_pos_x
         cur_pos_y = start_pos_y
@@ -162,7 +163,7 @@ def is_inside_circle(circle_x, circle_y, rad, x, y):
 # Helper method used to check if a given (x, y) point is inside of a rectangle
 # of a given width and height.
 def is_inside_rectangle(cur_pos_x, cur_pos_y, width, height):
-    if not ((cur_pos_x > width - 1) or (cur_pos_y > height - 1) or (cur_pos_x < 0) or (cur_pos_y < 0)):
+    if not ((cur_pos_x > width) or (cur_pos_y > height) or (cur_pos_x < 0) or (cur_pos_y < 0)):
         return True
     else:
         return False
