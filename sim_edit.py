@@ -26,7 +26,7 @@ SHAPES = ['RECTANGLE', 'CIRCLE', 'L-SHAPED']
 def main(shape, strategy, height, width, radius, n, step_size, distribution):
     # Call appropiate method based on passed in shape of forest to simulate.
     i = 0
-    # Do 1,000 n-simulations for central limit theorem, otherwise look at distribution.
+    # Do 1,000 n-simulations to demonstrate the central limit theorem, otherwise look at distribution of n trials.
     limit = 1 if distribution else 1000
     if (shape == 'RECTANGLE'):
         while (i < limit):
@@ -37,8 +37,9 @@ def main(shape, strategy, height, width, radius, n, step_size, distribution):
             circle(strategy, radius, n, step_size, distribution)
             i += 1
     elif (shape == 'L-SHAPED'):
+        # TODO: Let user specify these arguments.
         rec_big_height = 2
-        rec_big_width = 1
+        rec_big_width = 2
         rec_small_height = 1
         rec_small_width = 1
         while (i < limit):
@@ -152,7 +153,10 @@ def is_inside_circle(circle_x, circle_y, rad, x, y):
 # Helper method used to check if a given (x, y) point is inside of a rectangle
 # of a given width and height.
 def is_inside_rectangle(cur_pos_x, cur_pos_y, width, height):
-    return not ((cur_pos_x > width) or (cur_pos_y > height) or (cur_pos_x < 0) or (cur_pos_y < 0))
+    if not ((cur_pos_x > width) or (cur_pos_y > height) or (cur_pos_x < 0) or (cur_pos_y < 0)):
+        return True
+    else:
+        return False
 
 # Helper method used to check if a given (x,y) point is inside of the gnomon
 # with the given width and heights of the large rectangle, and the smaller
@@ -172,7 +176,7 @@ def move_random(shape, positions, width, height, center_x, center_y, radius, ste
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
-    num_steps_avg_res = 0
+    num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
     while (1):
         cur_position = positions[j]  # Look at curent position.
@@ -196,14 +200,13 @@ def move_random(shape, positions, width, height, center_x, center_y, radius, ste
         positions.append((next_pos_x, next_pos_y))
         cur_pos_x = next_pos_x
         cur_pos_y = next_pos_y
-        num_steps_avg_res += 1
+        num_steps_avg += 1
         j += 1
 
     # Print out the number of steps needed for this trial to look at the distribution.
     if (distribution):
-        print(num_steps_avg_res)
-        #print(len(positions)-1)
-    return num_steps_avg_res
+        print(len(positions)-1)
+    return num_steps_avg
 
 # Helper method to handle the staircase strategy.
 def move_staircase(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
@@ -211,7 +214,7 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
-    num_steps_avg_res = 0
+    num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
     #print(alpha)
     num_step = 1  # Vary stair-case size here.
@@ -232,7 +235,7 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
                 cur_pos_x, cur_pos_y, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
         if (outside_of_shape):
             break
-        
+
         next_pos_y = cur_position[1] + (stair_case_size * np.sin(alpha))
         next_pos_x = cur_position[0] + (stair_case_size * np.cos(alpha))
         cur_pos_x = next_pos_x
@@ -240,14 +243,13 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
         positions.append((next_pos_x, next_pos_y))
         # Next iteration - turn 90 degrees.
         alpha = alpha + np.radians(90) if j % 2 == 1 else alpha - np.radians(90)
-        num_steps_avg_res += num_step
+        num_steps_avg += num_step
         j += 1
 
     # Print out the number of steps needed for this trial to look at the distribution.
     if (distribution):
-        print(num_steps_avg_res)
-        # print(len(positions)-1)
-    return num_steps_avg_res
+        print(len(positions)-1)
+    return num_steps_avg
 
 # Helper method to handle the spiral strategy.
 def move_spiral(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
@@ -257,7 +259,7 @@ def move_spiral(shape, positions, width, height, center_x, center_y, radius, ste
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
-    num_steps_avg_res = 0
+    num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
     # print(alpha)
     # print(cur_spiral_side * np.cos(alpha))
@@ -283,7 +285,7 @@ def move_spiral(shape, positions, width, height, center_x, center_y, radius, ste
         positions.append((next_pos_x, next_pos_y))
         cur_pos_x = next_pos_x
         cur_pos_y = next_pos_y
-        num_steps_avg_res += num_step
+        num_steps_avg += num_step
         if (j % 2 == 1):
             # Every 2 steps in spiral - increment the size of the spiral by a step size.
             cur_spiral_side += step_size
@@ -294,9 +296,8 @@ def move_spiral(shape, positions, width, height, center_x, center_y, radius, ste
 
     # Print out the number of steps needed for this trial to look at the distribution.
     if (distribution):
-        print(num_steps_avg_res)
-        # print(len(positions)-1)
-    return num_steps_avg_res
+        print(len(positions)-1)
+    return num_steps_avg
 
 
 if __name__ == '__main__':
