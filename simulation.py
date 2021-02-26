@@ -23,7 +23,7 @@ import argparse
 # pick random direction for zig zag, turn 90 degrees go. (have bigger step size). for zigzag and spiral we can change parameters.
 # pick random point, random direction, calculate line to escape forest. we know line path is on - top of square is.
 
-STRATEGIES = ['RANDOM', 'ZIGZAG', 'SPIRAL']  # Strategies to simulate.
+STRATEGIES = ['RANDOM', 'STAIRCASE', 'SPIRAL']  # Strategies to simulate.
 # Different shapes of forests to simulate.
 SHAPES = ['RECTANGLE', 'CIRCLE', 'L-SHAPED']
 
@@ -42,6 +42,10 @@ def main(shape, strategy, height, width, radius, n, step_size, distribution):
             circle(strategy, radius, n, step_size, distribution)
             i += 1
     elif (shape == 'L-SHAPED'):
+        rec_big_height = 2
+        rec_big_width = 1
+        rec_small_height = 1
+        rec_small_width = 1
         while (i < limit):
             l_shape(strategy, rec_big_height, rec_big_width,
                     rec_small_height, rec_small_width, n, step_size, distribution)
@@ -65,13 +69,13 @@ def rectangle(strategy, height, width, n, step_size, distribution):
         positions = [(start_pos_x, start_pos_y)]
         # Use the passed in strategy to escape the forest.
         if (strategy == 'RANDOM'):
-            num_steps_avg += move_random('RECTANGLE', None, positions,
+            num_steps_avg += move_random('RECTANGLE', positions,
                                          width, height, 0, 0, 0, step_size, distribution, 0, 0, 0, 0)
-        elif (strategy == 'ZIGZAG'):
-            num_steps_avg += move_zig_zag('RECTANGLE', None, positions,
+        elif (strategy == 'STAIRCASE'):
+            num_steps_avg += move_staircase('RECTANGLE', positions,
                                           width, height, 0, 0, 0, step_size, distribution, 0, 0, 0, 0)
         elif (strategy == 'SPIRAL'):
-            num_steps_avg += move_spiral('RECTANGLE', None, positions,
+            num_steps_avg += move_spiral('RECTANGLE', positions,
                                          width, height, 0, 0, 0, step_size, distribution, 0, 0, 0, 0)
 
     # Print out average number of steps needed.
@@ -98,13 +102,13 @@ def circle(strategy, radius, n, step_size, distribution):
         positions = [(start_pos_x, start_pos_y)]
         # Use the passed in strategy to escape the forest.
         if (strategy == 'RANDOM'):
-            num_steps_avg += move_random('CIRCLE', None, positions, 0, 0,
+            num_steps_avg += move_random('CIRCLE', positions, 0, 0,
                                          center_x, center_y, radius, step_size, distribution0, 0, 0, 0, 0)
-        elif (strategy == 'ZIGZAG'):
-            num_steps_avg += move_zig_zag('CIRCLE', None, positions, 0, 0,
+        elif (strategy == 'STAIRCASE'):
+            num_steps_avg += move_staircase('CIRCLE', positions, 0, 0,
                                           center_x, center_y, radius, step_size, distribution, 0, 0, 0, 0)
         elif (strategy == 'SPIRAL'):
-            num_steps_avg += move_spiral('CIRCLE', None, positions, 0, 0,
+            num_steps_avg += move_spiral('CIRCLE', positions, 0, 0,
                                          center_x, center_y, radius, step_size, distribution, 0, 0, 0, 0)
 
     # Print out average number of steps needed.
@@ -129,13 +133,13 @@ def l_shape(strategy, rec_big_height, rec_big_width, rec_small_height, rec_small
         positions = [(start_pos_x, start_pos_y)]
         # Use the passed in strategy to escape the forest.
         if (strategy == 'RANDOM'):
-            num_steps_avg += move_random('CIRCLE', None, positions, 0, 0, center_x, center_y, radius,
+            num_steps_avg += move_random('CIRCLE', positions, 0, 0, center_x, center_y, radius,
                                          step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
-        elif (strategy == 'ZIGZAG'):
-            num_steps_avg += move_zig_zag('CIRCLE', None, positions, 0, 0, center_x, center_y, radius,
+        elif (strategy == 'STAIRCASE'):
+            num_steps_avg += move_staircase('CIRCLE', positions, 0, 0, center_x, center_y, radius,
                                           step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
         elif (strategy == 'SPIRAL'):
-            num_steps_avg += move_spiral('CIRCLE', None, positions, 0, 0, center_x, center_y, radius,
+            num_steps_avg += move_spiral('CIRCLE', positions, 0, 0, center_x, center_y, radius,
                                          step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
 
     # Print out average number of steps needed.
@@ -157,8 +161,6 @@ def is_inside_circle(circle_x, circle_y, rad, x, y):
 
 # Helper method used to check if a given (x, y) point is inside of a rectangle
 # of a given width and height.
-
-
 def is_inside_rectangle(cur_pos_x, cur_pos_y, width, height):
     if not ((cur_pos_x > width - 1) or (cur_pos_y > height - 1) or (cur_pos_x < 0) or (cur_pos_y < 0)):
         return True
@@ -168,21 +170,17 @@ def is_inside_rectangle(cur_pos_x, cur_pos_y, width, height):
 # Helper method used to check if a given (x,y) point is inside of the gnomon
 # with the given width and heights of the large rectangle, and the smaller
 # cutout rectangle.
-
-
 def is_inside_l(x, y, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     # if inside big AND not inside smaller rectangle
     # let's hope this works LOL
-    if((((x >= 0) and (x <= rec_big_width)) and ((y >= 0) and (y <= rec_big_height))) and not (((x >= (rec_big_width - rec_small_width)) and (x <= rec_big_width)) and ((y >= (rec_big_height - rec_small_height)) and (y <= rec_big_height))))
-    return true
+    #if (((x >= 0) and (x <= rec_big_width) and ((y >= 0) and (y <= rec_big_height))) and not (((x >= (rec_big_width - rec_small_width)) and (x <= rec_big_width)) and ((y >= (rec_big_height - rec_small_height)) and (y <= rec_big_height))))
+    #    return true
     return false
 
 ############ Helper functions to move based on strategy and shape ############
 
 # Helper method to handle the move right strategy.
-
-
-def move_random(shape, polygon, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
+def move_random(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     j = 0
     point = positions[j]
     cur_pos_x = point[0]
@@ -219,19 +217,19 @@ def move_random(shape, polygon, positions, width, height, center_x, center_y, ra
         print(len(positions)-1)
     return num_steps_avg
 
-# Helper method to handle the zig-zag strategy.
-
-
-def move_zig_zag(shape, polygon, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
+# Helper method to handle the staircase strategy.
+def move_staircase(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     j = 0
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
     num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
+    print(alpha)
+    stair_case_size = step_size * 5  # Vary stair-case size here.
     while (1):
         cur_position = positions[j]  # Look at curent position.
-        # print(cur_position)
+        print(cur_position)
         # Based on shape - see if the current position is inside or outside of shape.
         outside_of_shape = False
         if (shape == 'RECTANGLE'):
@@ -245,14 +243,14 @@ def move_zig_zag(shape, polygon, positions, width, height, center_x, center_y, r
                 cur_pos_x, cur_pos_y, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
         if (outside_of_shape):
             break
-        if (len(positions) % 2 == 1):
-            next_pos_y = cur_position[1] + (step_size * np.sin(alpha))
-            positions.append((cur_position[0], next_pos_y))
-            cur_pos_y = next_pos_y
-        else:
-            next_pos_x = cur_position[0] + (step_size * np.cos(alpha))
-            positions.append((next_pos_x, cur_position[1]))
-            cur_pos_x = next_pos_x
+
+        next_pos_y = cur_position[1] + (stair_case_size * np.sin(alpha))
+        next_pos_x = cur_position[0] + (stair_case_size * np.cos(alpha))
+        cur_pos_x = next_pos_x
+        cur_pos_y = next_pos_y
+        positions.append((next_pos_x, next_pos_y))
+        # Next iteration - turn 90 degrees.
+        alpha = alpha + np.radians(90) if len(positions) % 2 == 1 else alpha - np.radians(90)
         num_steps_avg += 1
         j += 1
 
@@ -262,16 +260,17 @@ def move_zig_zag(shape, polygon, positions, width, height, center_x, center_y, r
     return num_steps_avg
 
 # Helper method to handle the spiral strategy.
-
-
-def move_spiral(shape, polygon, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
+def move_spiral(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     j = 0
-    cur_spiral_side = 1  # change cur_spiral_side.
+    cur_spiral_side = 1  # Parameter for "size" of spiral.
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
     num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
+    # print(alpha)
+    # print(cur_spiral_side * np.cos(alpha))
+    # print(cur_spiral_side * np.sin(alpha))
     while (1):
         cur_position = positions[j]  # Look at curent position.
         # print(cur_position)
@@ -288,21 +287,16 @@ def move_spiral(shape, polygon, positions, width, height, center_x, center_y, ra
                 cur_pos_x, cur_pos_y, rec_big_height, rec_big_width, rec_small_height, rec_small_width)
         if (outside_of_shape):
             break
-        if (cur_spiral_side % 2 == 1):
-            next_pos_x = cur_position[0] + (cur_spiral_side * np.cos(alpha))
-            next_pos_y = cur_position[1] + (cur_spiral_side * np.sin(alpha))
-            positions.append((next_pos_x, next_pos_y))
-            cur_pos_x = next_pos_x
-            cur_pos_y = next_pos_y
-        else:
-            next_pos_x = cur_position[0] - (cur_spiral_side * np.cos(alpha))
-            next_pos_y = cur_position[1] - (cur_spiral_side * np.sin(alpha))
-            positions.append((next_pos_x, next_pos_y))
-            cur_pos_x = next_pos_x
-            cur_pos_y = next_pos_y
+        next_pos_x = cur_position[0] + (cur_spiral_side * np.cos(alpha))
+        next_pos_y = cur_position[1] + (cur_spiral_side * np.sin(alpha))
+        positions.append((next_pos_x, next_pos_y))
+        cur_pos_x = next_pos_x
+        cur_pos_y = next_pos_y
         num_steps_avg += (2 * cur_spiral_side)
         cur_spiral_side += 1
         j += 1
+        # Add 90 degrees as the next move we are turning
+        alpha += np.radians(90)
 
     # Print out the number of steps needed for this trial to look at the distribution.
     if (distribution):
