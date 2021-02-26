@@ -225,11 +225,11 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
     cur_pos_y = point[1]
     num_steps_avg = 0
     alpha = np.pi * np.random.uniform(0, 2)  # in radians
-    print(alpha)
-    stair_case_size = step_size * 5  # Vary stair-case size here.
+    #print(alpha)
+    stair_case_size = step_size * 1  # Vary stair-case size here.
     while (1):
         cur_position = positions[j]  # Look at curent position.
-        print(cur_position)
+        #print(cur_position)
         # Based on shape - see if the current position is inside or outside of shape.
         outside_of_shape = False
         if (shape == 'RECTANGLE'):
@@ -262,7 +262,7 @@ def move_staircase(shape, positions, width, height, center_x, center_y, radius, 
 # Helper method to handle the spiral strategy.
 def move_spiral(shape, positions, width, height, center_x, center_y, radius, step_size, distribution, rec_big_height, rec_big_width, rec_small_height, rec_small_width):
     j = 0
-    cur_spiral_side = 1  # Parameter for "size" of spiral.
+    cur_spiral_side = step_size * 1  # Parameter for "size" of spiral.
     point = positions[j]
     cur_pos_x = point[0]
     cur_pos_y = point[1]
